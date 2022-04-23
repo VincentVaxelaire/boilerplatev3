@@ -1,0 +1,33 @@
+{
+  "name": "boilerplatev3",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "author": "Vincent Vaxelaire",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config ./bundler/webpack.prod.js",
+    "dev": "webpack serve --config ./bundler/webpack.dev.js"
+  },
+  "devDependencies": {
+    "@webdiscus/pug-loader": "^2.0.0",
+    "autoprefixer": "^10.4.4",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "css-loader": "^6.7.1",
+    "esbuild-loader": "^2.18.0",
+    "html-webpack-plugin": "^5.5.0",
+    "ip": "^1.1.5",
+    "mini-css-extract-plugin": "^2.6.0",
+    "path": "^0.12.7",
+    "postcss": "^8.4.12",
+    "postcss-loader": "^6.2.1",
+    "sass": "^1.50.1",
+    "sass-loader": "^12.6.0",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.8.1",
+    "webpack-merge": "^5.8.0"
+  },
+  "license": "ISC"
+}
