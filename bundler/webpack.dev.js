@@ -1,41 +1,54 @@
-import path from 'path';
-import { merge } from 'webpack-merge';
-import commonConfiguration from './webpack.common.js';
-import ip from 'ip';
+import path from "path";
+import { merge } from "webpack-merge";
+import commonConfiguration from "./webpack.common.js";
+import portFinderSync from "portfinder-sync";
+
 const __dirname = process.cwd();
+
 const infoColor = (_message) => {
-  return `\u001b[1m\u001b[34m${_message}\u001b[39m\u001b[22m`
-}
+  return `\u001b[1m\u001b[34m${_message}\u001b[39m\u001b[22m`;
+};
 
 export default merge(commonConfiguration, {
-  stats: 'errors-warnings',
-  mode: 'development',
+  stats: "errors-warnings",
+  mode: "development",
   infrastructureLogging: {
-    level: 'warn',
+    level: "warn",
   },
   devServer: {
-    host: 'local-ip',
+    host: "local-ip",
+    port: portFinderSync.getPort(8080),
     open: true,
     https: false,
-    allowedHosts: 'all',
+    allowedHosts: "all",
     hot: false,
-    watchFiles: ['src/**', 'static/**'],
+    watchFiles: ["src/**", "static/**"],
     static: {
       watch: true,
-      directory: path.resolve(__dirname, 'static'),
+      directory: path.join(__dirname, "static"),
     },
     client: {
-      logging: 'none',
+      logging: "none",
       overlay: true,
       progress: false,
     },
-    onAfterSetupMiddleware: function (devServer) {
-      const https = devServer.https ? 's' : '';
-      const localIp = ip.address();
-      const domain1 = `http${https}://${localIp}:8080`;
-      const domain2 = `http${https}://localhost:8080`;
+    setupMiddlewares: function (middlewares, devServer) {
+      console.log(
+        "------------------------------------------------------------"
+      );
+      console.log(devServer.options.host);
+      const port = devServer.options.port;
+      const https = devServer.options.https ? "s" : "";
+      const domain1 = `http${https}://${devServer.options.host}:${port}`;
+      const domain2 = `http${https}://localhost:${port}`;
 
-      console.log(`Local server is running at:\n - ${infoColor(domain1)}\n - ${infoColor(domain2)}`);
-    }
+      console.log(
+        `Project running at:\n  - ${infoColor(domain1)}\n  - ${infoColor(
+          domain2
+        )}`
+      );
+
+      return middlewares;
+    },
   },
 });
